@@ -30,23 +30,22 @@ int main(){
 
     startAddress = CreateNode(31);
 
-    // for (int i = 0; i < numberOfNodes ; i++)
-    //   {
-    //     Append(startAddress, rand());
-    //   }
+    for (int i = 0; i < numberOfNodes ; i++){
+        Append(startAddress, rand());
+    }
 
     Append(startAddress, 23);
+    Append(startAddress, 31);
+    Append(startAddress, 23);
     Append(startAddress, 30);
-    Append(startAddress, 56);
-    Append(startAddress, 30);
-    // PrintList(startAddress);
+    PrintList(startAddress);
 
-    // startAddress = Delete(startAddress, 23);
-     PrintList(startAddress);
-    // startAddress = Delete(startAddress, 30);
-    // PrintList(startAddress);
-    // startAddress = Delete(startAddress, 31);
-    // PrintList(startAddress);
+    startAddress = Delete(startAddress, 23);
+    PrintList(startAddress);
+    startAddress = Delete(startAddress, 30);
+    PrintList(startAddress);
+    startAddress = Delete(startAddress, 31);
+    PrintList(startAddress);
 
     cout << "There are " << Length(startAddress) << " nodes." << endl;
     cout << "The program has ended." << endl;
@@ -127,6 +126,36 @@ node* Delete(node* startNode, int value){
     node *thisNode;
     node *lastNode;
     node *next;
+
+    thisNode = startNode;
+
+    while ((thisNode -> aValue) != value){
+        // cout << "Comparing " << (thisNode -> aValue) << " to " << value << endl;
+
+        if ((thisNode -> next) == NULL){
+            break;
+        }
+
+        lastNode = thisNode;
+        thisNode = (node *) thisNode -> next;
+    }
+
+    if ((thisNode -> aValue) == value){
+        // cout << "Found match for " << value << endl;
+        if (thisNode == startNode) {
+            returnValue =  (node *) thisNode -> next;
+            free(thisNode);
+            if (returnValue != NULL){
+
+                returnValue = Delete(returnValue, value);
+            }
+
+        } else {
+            lastNode -> next = thisNode -> next;
+            free(thisNode);
+            Delete(lastNode, value);
+        }
+    }
 
     return returnValue;
 }
